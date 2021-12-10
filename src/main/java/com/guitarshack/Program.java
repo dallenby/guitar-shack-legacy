@@ -8,12 +8,13 @@ public class Program {
 
     static {
         Request salesRequest = new Request("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales");
+        Request productRequest = new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product");
         monitor = new StockMonitor(product -> {
             // We are faking this for now
             System.out.println(
                     "You need to reorder product " + product.getId() +
                             ". Only " + product.getStock() + " remaining in stock");
-        }, new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product"), new SalesHistory(salesRequest), Calendar.getInstance());
+        }, productRequest, new SalesHistory(salesRequest), Calendar.getInstance());
     }
 
     public static void main(String[] args) {
