@@ -45,7 +45,6 @@ public class StockMonitor {
             put("action", "total");
         }};
         String result1 = salesRequest.get(params1);
-        SalesTotal total = new Gson().fromJson(result1, SalesTotal.class);
-        return total;
+        return new Gson().fromJson(result1, SalesTotal.class);
     }
 }
