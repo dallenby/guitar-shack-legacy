@@ -1,5 +1,6 @@
 package com.guitarshack;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -16,30 +17,24 @@ public class StockMonitorTest {
     private final Alert alert = Mockito.mock(Alert.class);
     private final SalesHistory salesHistory = Mockito.mock(SalesHistory.class);
 
-    @Test
-    public void reorderAlertSent() {
-        Request productRequest = Mockito.mock(Request.class);
-        Request salesRequest = Mockito.mock(Request.class);
-        when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
-        when(salesRequest.get(any())).thenReturn("{'total':30}");
-        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, new SalesHistory(salesRequest), calendar);
-        stockMonitor.productSold(811, 27);
-        verify(alert).send(any());
-    }
-
-    @Test
-    public void startDateIsOneYearInThePast() {
-        setup();
-        calendar.set(2020, Calendar.DECEMBER, 1);
-        verify(salesHistory).getSalesTotal(any(), any(), eq(calendar.getTime()));
-    }
-
-    private void setup() {
+    @Before
+    public void setup() {
         Request productRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
         calendar.set(2021, Calendar.DECEMBER, 1);
         StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesHistory, calendar);
         stockMonitor.productSold(811, 27);
+    }
+
+    @Test
+    public void reorderAlertSent() {
+        verify(alert).send(any());
+    }
+
+    @Test
+    public void startDateIsOneYearInThePast() {
+        calendar.set(2020, Calendar.DECEMBER, 1);
+        verify(salesHistory).getSalesTotal(any(), any(), eq(calendar.getTime()));
     }
 }
