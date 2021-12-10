@@ -20,4 +20,9 @@ public class StockMonitorTest {
         stockMonitor.productSold(811, 27);
         verify(alert).send(any());
     }
+
+    @Test
+    public void startDateIsOneYearInThePast(){
+
+    }
 }
