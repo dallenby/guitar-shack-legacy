@@ -11,11 +11,13 @@ public class StockMonitor {
     private final Alert alert;
     private final Request productRequest;
     private final SalesHistory salesHistory;
+    private final Calendar instance;
 
     public StockMonitor(Alert alert, Request productRequest, SalesHistory salesHistory) {
         this.alert = alert;
         this.productRequest = productRequest;
         this.salesHistory = salesHistory;
+        instance = Calendar.getInstance();
     }
 
     public void productSold(int productId, int quantity) {
@@ -24,7 +26,7 @@ public class StockMonitor {
         }};
         String result = productRequest.get(params);
         Product product = new Gson().fromJson(result, Product.class);
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = instance;
         calendar.setTime(Calendar.getInstance().getTime());
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
