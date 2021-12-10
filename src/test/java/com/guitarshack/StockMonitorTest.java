@@ -37,4 +37,10 @@ public class StockMonitorTest {
         calendar.set(2020, Calendar.DECEMBER, 1);
         verify(salesHistory).getSalesTotal(any(), any(), eq(calendar.getTime()));
     }
+
+    @Test
+    public void endDateIs30DaysAfterStartDate() {
+        calendar.set(2020, Calendar.DECEMBER, 31);
+        verify(salesHistory).getSalesTotal(any(), eq(calendar.getTime()), any());
+    }
 }
