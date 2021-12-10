@@ -18,11 +18,11 @@ public class StockMonitor {
 
     public void productSold(int productId, int quantity) {
         Product product = warehouse.getProduct(productId);
-        if(product.getStock() - quantity <= getReorderThreshold(product))
+        if(product.getStock() - quantity <= getReorderThreshold(product, calendar))
             alert.send(product);
     }
 
-    private int getReorderThreshold(Product product) {
+    private int getReorderThreshold(Product product, Calendar calendar) {
         calendar.add(Calendar.YEAR, -1);
         Date startDate = calendar.getTime();
         calendar.add(Calendar.DATE, 30);
