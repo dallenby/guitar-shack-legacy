@@ -23,7 +23,8 @@ public class StockMonitor {
         calendar.add(Calendar.DATE, 30);
         Date endDate = calendar.getTime();
         SalesTotal total = salesHistory.getSalesTotal(product, endDate, startDate);
-        if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
+        int reorderThreshold = (int) ((double) (total.getTotal() / 30) * product.getLeadTime());
+        if(product.getStock() - quantity <= reorderThreshold)
             alert.send(product);
     }
 }
