@@ -2,8 +2,6 @@ package com.guitarshack;
 
 import com.google.gson.Gson;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,20 +29,9 @@ public class StockMonitor {
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
         Date startDate = calendar.getTime();
-        SalesTotal total = getSalesTotal(product, endDate, startDate, new SalesHistory(salesRequest));
+        SalesTotal total = new SalesHistory(salesRequest).getSalesTotal(product, endDate, startDate);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
     }
 
-    private SalesTotal getSalesTotal(Product product, Date endDate, Date startDate, SalesHistory salesHistory) {
-        DateFormat format = new SimpleDateFormat("M/d/yyyy");
-        Map<String, Object> params1 = new HashMap<>(){{
-            put("productId", product.getId());
-            put("startDate", format.format(startDate));
-            put("endDate", format.format(endDate));
-            put("action", "total");
-        }};
-        String result1 = salesHistory.getSalesRequest().get(params1);
-        return new Gson().fromJson(result1, SalesTotal.class);
-    }
 }
