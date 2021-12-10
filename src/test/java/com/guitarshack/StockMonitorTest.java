@@ -29,7 +29,6 @@ public class StockMonitorTest {
 
     @Test
     public void startDateIsOneYearInThePast() {
-        Alert alert = Mockito.mock(Alert.class);
         Request productRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
