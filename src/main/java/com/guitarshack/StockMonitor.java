@@ -10,13 +10,11 @@ import java.util.Map;
 public class StockMonitor {
     private final Alert alert;
     private final Request productRequest;
-    private final Request salesRequest;
     private final SalesHistory salesHistory;
 
-    public StockMonitor(Alert alert, Request productRequest, Request salesRequest, SalesHistory salesHistory) {
+    public StockMonitor(Alert alert, Request productRequest, SalesHistory salesHistory) {
         this.alert = alert;
         this.productRequest = productRequest;
-        this.salesRequest = salesRequest;
         this.salesHistory = salesHistory;
     }
 
