@@ -16,7 +16,7 @@ public class Program {
             System.out.println(
                     "You need to reorder product " + product.getId() +
                             ". Only " + product.getStock() + " remaining in stock");
-        }, salesHistory, calendar, new Warehouse(productRequest));
+        }, salesHistory, calendar, new Warehouse(productRequest), new ReorderThreshold(calendar, salesHistory));
     }
 
     public static void main(String[] args) {

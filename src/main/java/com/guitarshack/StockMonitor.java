@@ -9,12 +9,12 @@ public class StockMonitor {
     private final Warehouse warehouse;
     private final ReorderThreshold reorderThreshold;
 
-    public StockMonitor(Alert alert, SalesHistory salesHistory, Calendar calendar, Warehouse warehouse) {
+    public StockMonitor(Alert alert, SalesHistory salesHistory, Calendar calendar, Warehouse warehouse, ReorderThreshold reorderThreshold) {
         this.alert = alert;
         this.salesHistory = salesHistory;
         this.calendar = calendar;
         this.warehouse = warehouse;
-        reorderThreshold = new ReorderThreshold(calendar, salesHistory);
+        this.reorderThreshold = reorderThreshold;
     }
 
     public void productSold(int productId, int quantity) {
