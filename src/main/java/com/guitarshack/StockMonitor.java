@@ -11,17 +11,18 @@ import java.util.Map;
 
 public class StockMonitor {
     private final Alert alert;
+    private final Request productRequest;
 
-    public StockMonitor(Alert alert) {
+    public StockMonitor(Alert alert, Request productRequest) {
         this.alert = alert;
+        this.productRequest = productRequest;
     }
 
     public void productSold(int productId, int quantity) {
-        String baseURL = "https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product";
         Map<String, Object> params = new HashMap<>() {{
             put("id", productId);
         }};
-        String result = new Request(baseURL).get(params);
+        String result = productRequest.get(params);
         Product product = new Gson().fromJson(result, Product.class);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(Calendar.getInstance().getTime());
@@ -35,8 +36,7 @@ public class StockMonitor {
             put("endDate", format.format(endDate));
             put("action", "total");
         }};
-        String url = "https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales";
-        String result1 = new Request(url).get(params1);
+        String result1 = new Request("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales").get(params1);
         SalesTotal total = new Gson().fromJson(result1, SalesTotal.class);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
