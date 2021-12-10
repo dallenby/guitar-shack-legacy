@@ -13,10 +13,11 @@ import static org.mockito.Mockito.when;
 public class StockMonitorTest {
 
     private final Calendar calendar = Calendar.getInstance();
+    private final Alert alert = Mockito.mock(Alert.class);
+    private final SalesHistory salesHistory = Mockito.mock(SalesHistory.class);
 
     @Test
     public void reorderAlertSent() {
-        Alert alert = Mockito.mock(Alert.class);
         Request productRequest = Mockito.mock(Request.class);
         Request salesRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
@@ -27,11 +28,10 @@ public class StockMonitorTest {
     }
 
     @Test
-    public void startDateIsOneYearInThePast(){
+    public void startDateIsOneYearInThePast() {
         Alert alert = Mockito.mock(Alert.class);
         Request productRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
-        SalesHistory salesHistory = Mockito.mock(SalesHistory.class);
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
         calendar.set(2021, Calendar.DECEMBER, 1);
         StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesHistory, calendar);
