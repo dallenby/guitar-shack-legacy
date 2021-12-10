@@ -31,12 +31,12 @@ public class StockMonitor {
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
         Date startDate = calendar.getTime();
-        SalesTotal total = getSalesTotal(product, endDate, startDate);
+        SalesTotal total = getSalesTotal(product, endDate, startDate, salesRequest);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
     }
 
-    private SalesTotal getSalesTotal(Product product, Date endDate, Date startDate) {
+    private SalesTotal getSalesTotal(Product product, Date endDate, Date startDate, Request salesRequest) {
         DateFormat format = new SimpleDateFormat("M/d/yyyy");
         Map<String, Object> params1 = new HashMap<>(){{
             put("productId", product.getId());
