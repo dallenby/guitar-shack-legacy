@@ -13,11 +13,11 @@ public class StockMonitor {
     private final Request salesRequest;
     private final SalesHistory salesHistory;
 
-    public StockMonitor(Alert alert, Request productRequest, Request salesRequest) {
+    public StockMonitor(Alert alert, Request productRequest, Request salesRequest, SalesHistory salesHistory) {
         this.alert = alert;
         this.productRequest = productRequest;
         this.salesRequest = salesRequest;
-        salesHistory = new SalesHistory(salesRequest);
+        this.salesHistory = salesHistory;
     }
 
     public void productSold(int productId, int quantity) {

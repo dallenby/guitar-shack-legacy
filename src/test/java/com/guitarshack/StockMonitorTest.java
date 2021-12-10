@@ -16,7 +16,7 @@ public class StockMonitorTest {
         Request salesRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesRequest.get(any())).thenReturn("{'total':30}");
-        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesRequest);
+        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesRequest, new SalesHistory(salesRequest));
         stockMonitor.productSold(811, 27);
         verify(alert).send(any());
     }
