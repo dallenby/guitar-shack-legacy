@@ -15,10 +15,6 @@ public class SalesHistory {
         this.salesRequest = salesRequest;
     }
 
-    public Request getSalesRequest() {
-        return salesRequest;
-    }
-
     SalesTotal getSalesTotal(Product product, Date endDate, Date startDate) {
         DateFormat format = new SimpleDateFormat("M/d/yyyy");
         Map<String, Object> params1 = new HashMap<>(){{
@@ -27,7 +23,7 @@ public class SalesHistory {
             put("endDate", format.format(endDate));
             put("action", "total");
         }};
-        String result1 = getSalesRequest().get(params1);
+        String result1 = salesRequest.get(params1);
         return new Gson().fromJson(result1, SalesTotal.class);
     }
 }
