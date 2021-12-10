@@ -12,20 +12,12 @@ public class ReorderThreshold {
         this.salesHistory = salesHistory;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
-    }
-
-    public SalesHistory getSalesHistory() {
-        return salesHistory;
-    }
-
     int getReorderThreshold(Product product) {
-        getCalendar().add(Calendar.YEAR, -1);
-        Date startDate = getCalendar().getTime();
-        getCalendar().add(Calendar.DATE, 30);
-        Date endDate = getCalendar().getTime();
-        SalesTotal total = getSalesHistory().getSalesTotal(product, endDate, startDate);
+        calendar.add(Calendar.YEAR, -1);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.DATE, 30);
+        Date endDate = calendar.getTime();
+        SalesTotal total = salesHistory.getSalesTotal(product, endDate, startDate);
         return (int) ((double) (total.getTotal() / 30) * product.getLeadTime());
     }
 }
