@@ -12,15 +12,11 @@ public class Warehouse {
         this.productRequest = productRequest;
     }
 
-    public Request getProductRequest() {
-        return productRequest;
-    }
-
     Product getProduct(int productId) {
         Map<String, Object> params = new HashMap<>() {{
             put("id", productId);
         }};
-        String result = getProductRequest().get(params);
+        String result = productRequest.get(params);
         return new Gson().fromJson(result, Product.class);
     }
 }
