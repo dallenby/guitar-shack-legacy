@@ -21,7 +21,7 @@ public class StockMonitor {
     }
 
     public void productSold(int productId, int quantity) {
-        Product product = getProduct(productId, productRequest);
+        Product product = getProduct(productId, new Warehouse(productRequest));
         calendar.add(Calendar.YEAR, -1);
         Date startDate = calendar.getTime();
         calendar.add(Calendar.DATE, 30);
@@ -31,11 +31,11 @@ public class StockMonitor {
             alert.send(product);
     }
 
-    private Product getProduct(int productId, Request productRequest) {
+    private Product getProduct(int productId, Warehouse warehouse) {
         Map<String, Object> params = new HashMap<>() {{
             put("id", productId);
         }};
-        String result = productRequest.get(params);
+        String result = warehouse.getProductRequest().get(params);
         return new Gson().fromJson(result, Product.class);
     }
 }
