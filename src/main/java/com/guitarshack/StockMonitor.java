@@ -5,17 +5,15 @@ import java.util.Date;
 
 public class StockMonitor {
     private final Alert alert;
-    private final Request productRequest;
     private final SalesHistory salesHistory;
     private final Calendar calendar;
     private final Warehouse warehouse;
 
-    public StockMonitor(Alert alert, Request productRequest, SalesHistory salesHistory, Calendar calendar) {
+    public StockMonitor(Alert alert, SalesHistory salesHistory, Calendar calendar, Warehouse warehouse) {
         this.alert = alert;
-        this.productRequest = productRequest;
         this.salesHistory = salesHistory;
         this.calendar = calendar;
-        warehouse = new Warehouse(productRequest);
+        this.warehouse = warehouse;
     }
 
     public void productSold(int productId, int quantity) {
