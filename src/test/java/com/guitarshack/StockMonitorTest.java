@@ -23,7 +23,7 @@ public class StockMonitorTest {
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
         calendar.set(2021, Calendar.DECEMBER, 1);
-        StockMonitor stockMonitor = new StockMonitor(alert, salesHistory, calendar, new Warehouse(productRequest), new ReorderThreshold(calendar, salesHistory));
+        StockMonitor stockMonitor = new StockMonitor(alert, new Warehouse(productRequest), new ReorderThreshold(calendar, salesHistory));
         stockMonitor.productSold(811, 27);
     }
 
