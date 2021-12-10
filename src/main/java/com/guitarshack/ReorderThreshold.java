@@ -12,7 +12,7 @@ public class ReorderThreshold {
         this.salesHistory = salesHistory;
     }
 
-    int getReorderThreshold(Product product) {
+    int ofProduct(Product product) {
         calendar.add(Calendar.YEAR, -1);
         Date startDate = calendar.getTime();
         calendar.add(Calendar.DATE, 30);

@@ -17,7 +17,7 @@ public class StockMonitor {
 
     public void productSold(int productId, int quantity) {
         Product product = warehouse.getProduct(productId);
-        if(product.getStock() - quantity <= new ReorderThreshold(calendar, salesHistory).getReorderThreshold(product))
+        if(product.getStock() - quantity <= new ReorderThreshold(calendar, salesHistory).ofProduct(product))
             alert.send(product);
     }
 
