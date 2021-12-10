@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 
 public class StockMonitorTest {
 
+    private final Calendar calendar = Calendar.getInstance();
+
     @Test
     public void reorderAlertSent() {
         Alert alert = Mockito.mock(Alert.class);
@@ -18,7 +20,7 @@ public class StockMonitorTest {
         Request salesRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesRequest.get(any())).thenReturn("{'total':30}");
-        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, new SalesHistory(salesRequest), Calendar.getInstance());
+        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, new SalesHistory(salesRequest), calendar);
         stockMonitor.productSold(811, 27);
         verify(alert).send(any());
     }
@@ -30,7 +32,7 @@ public class StockMonitorTest {
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         SalesHistory salesHistory = Mockito.mock(SalesHistory.class);
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
-        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesHistory, Calendar.getInstance());
+        StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesHistory, calendar);
         stockMonitor.productSold(811, 27);
 //        verify(salesHistory).getSalesTotal(any(), any(), eq())
     }
