@@ -12,10 +12,12 @@ import java.util.Map;
 public class StockMonitor {
     private final Alert alert;
     private final Request productRequest;
+    private final Request salesRequest;
 
-    public StockMonitor(Alert alert, Request productRequest) {
+    public StockMonitor(Alert alert, Request productRequest, Request salesRequest) {
         this.alert = alert;
         this.productRequest = productRequest;
+        this.salesRequest = salesRequest;
     }
 
     public void productSold(int productId, int quantity) {
@@ -36,7 +38,7 @@ public class StockMonitor {
             put("endDate", format.format(endDate));
             put("action", "total");
         }};
-        String result1 = new Request("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales").get(params1);
+        String result1 = salesRequest.get(params1);
         SalesTotal total = new Gson().fromJson(result1, SalesTotal.class);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);

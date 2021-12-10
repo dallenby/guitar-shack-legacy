@@ -7,7 +7,7 @@ public class Program {
         System.out.println(
                 "You need to reorder product " + product.getId() +
                         ". Only " + product.getStock() + " remaining in stock");
-    }, new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product"));
+    }, new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product"), new Request("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales"));
 
     public static void main(String[] args) {
         int productId = Integer.parseInt(args[0]);
