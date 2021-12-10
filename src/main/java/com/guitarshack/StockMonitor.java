@@ -18,16 +18,16 @@ public class StockMonitor {
 
     public void productSold(int productId, int quantity) {
         Product product = warehouse.getProduct(productId);
-        if(product.getStock() - quantity <= getReorderThreshold(product, calendar, salesHistory))
+        if(product.getStock() - quantity <= getReorderThreshold(product, new ReorderThreshold(calendar, salesHistory)))
             alert.send(product);
     }
 
-    private int getReorderThreshold(Product product, Calendar calendar, SalesHistory salesHistory) {
-        calendar.add(Calendar.YEAR, -1);
-        Date startDate = calendar.getTime();
-        calendar.add(Calendar.DATE, 30);
-        Date endDate = calendar.getTime();
-        SalesTotal total = salesHistory.getSalesTotal(product, endDate, startDate);
+    private int getReorderThreshold(Product product, ReorderThreshold reorderThreshold) {
+        reorderThreshold.getCalendar().add(Calendar.YEAR, -1);
+        Date startDate = reorderThreshold.getCalendar().getTime();
+        reorderThreshold.getCalendar().add(Calendar.DATE, 30);
+        Date endDate = reorderThreshold.getCalendar().getTime();
+        SalesTotal total = reorderThreshold.getSalesHistory().getSalesTotal(product, endDate, startDate);
         return (int) ((double) (total.getTotal() / 30) * product.getLeadTime());
     }
 }
