@@ -11,11 +11,13 @@ public class StockMonitor {
     private final Alert alert;
     private final Request productRequest;
     private final Request salesRequest;
+    private final SalesHistory salesHistory;
 
     public StockMonitor(Alert alert, Request productRequest, Request salesRequest) {
         this.alert = alert;
         this.productRequest = productRequest;
         this.salesRequest = salesRequest;
+        salesHistory = new SalesHistory(salesRequest);
     }
 
     public void productSold(int productId, int quantity) {
@@ -29,7 +31,7 @@ public class StockMonitor {
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
         Date startDate = calendar.getTime();
-        SalesTotal total = new SalesHistory(salesRequest).getSalesTotal(product, endDate, startDate);
+        SalesTotal total = salesHistory.getSalesTotal(product, endDate, startDate);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
     }
