@@ -31,12 +31,12 @@ public class StockMonitor {
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
         Date startDate = calendar.getTime();
-        SalesTotal total = getSalesTotal(product, endDate, startDate, salesRequest);
+        SalesTotal total = getSalesTotal(product, endDate, startDate, new SalesHistory(salesRequest));
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
     }
 
-    private SalesTotal getSalesTotal(Product product, Date endDate, Date startDate, Request salesRequest) {
+    private SalesTotal getSalesTotal(Product product, Date endDate, Date startDate, SalesHistory salesHistory) {
         DateFormat format = new SimpleDateFormat("M/d/yyyy");
         Map<String, Object> params1 = new HashMap<>(){{
             put("productId", product.getId());
@@ -44,7 +44,7 @@ public class StockMonitor {
             put("endDate", format.format(endDate));
             put("action", "total");
         }};
-        String result1 = salesRequest.get(params1);
+        String result1 = salesHistory.getSalesRequest().get(params1);
         return new Gson().fromJson(result1, SalesTotal.class);
     }
 }
