@@ -26,7 +26,6 @@ public class StockMonitor {
         }};
         String result = productRequest.get(params);
         Product product = new Gson().fromJson(result, Product.class);
-        Calendar calendar = this.calendar;
         calendar.setTime(Calendar.getInstance().getTime());
         Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, -30);
