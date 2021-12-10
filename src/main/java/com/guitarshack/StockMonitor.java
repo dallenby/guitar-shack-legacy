@@ -7,18 +7,19 @@ public class StockMonitor {
     private final SalesHistory salesHistory;
     private final Calendar calendar;
     private final Warehouse warehouse;
+    private final ReorderThreshold reorderThreshold;
 
     public StockMonitor(Alert alert, SalesHistory salesHistory, Calendar calendar, Warehouse warehouse) {
         this.alert = alert;
         this.salesHistory = salesHistory;
         this.calendar = calendar;
         this.warehouse = warehouse;
+        reorderThreshold = new ReorderThreshold(calendar, salesHistory);
     }
 
     public void productSold(int productId, int quantity) {
         Product product = warehouse.getProduct(productId);
-        if(product.getStock() - quantity <= new ReorderThreshold(calendar, salesHistory).ofProduct(product))
+        if(product.getStock() - quantity <= reorderThreshold.ofProduct(product))
             alert.send(product);
     }
-
 }
