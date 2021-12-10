@@ -29,13 +29,17 @@ public class StockMonitorTest {
 
     @Test
     public void startDateIsOneYearInThePast() {
+        setup();
+        calendar.set(2020, Calendar.DECEMBER, 1);
+        verify(salesHistory).getSalesTotal(any(), any(), eq(calendar.getTime()));
+    }
+
+    private void setup() {
         Request productRequest = Mockito.mock(Request.class);
         when(productRequest.get(any())).thenReturn("{'stock':27,'id':811,'leadTime':14}");
         when(salesHistory.getSalesTotal(any(), any(), any())).thenReturn(new SalesTotal());
         calendar.set(2021, Calendar.DECEMBER, 1);
         StockMonitor stockMonitor = new StockMonitor(alert, productRequest, salesHistory, calendar);
         stockMonitor.productSold(811, 27);
-        calendar.set(2020, Calendar.DECEMBER, 1);
-        verify(salesHistory).getSalesTotal(any(), any(), eq(calendar.getTime()));
     }
 }
