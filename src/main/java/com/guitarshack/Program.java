@@ -1,5 +1,7 @@
 package com.guitarshack;
 
+import java.util.Calendar;
+
 public class Program {
 
     private static StockMonitor monitor;
@@ -11,7 +13,7 @@ public class Program {
             System.out.println(
                     "You need to reorder product " + product.getId() +
                             ". Only " + product.getStock() + " remaining in stock");
-        }, new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product"), new SalesHistory(salesRequest));
+        }, new Request("https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product"), new SalesHistory(salesRequest), Calendar.getInstance());
     }
 
     public static void main(String[] args) {
