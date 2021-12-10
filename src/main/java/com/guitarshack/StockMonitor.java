@@ -1,11 +1,7 @@
 package com.guitarshack;
 
-import com.google.gson.Gson;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class StockMonitor {
     private final Alert alert;
@@ -21,7 +17,7 @@ public class StockMonitor {
     }
 
     public void productSold(int productId, int quantity) {
-        Product product = getProduct(productId, new Warehouse(productRequest));
+        Product product = new Warehouse(productRequest).getProduct(productId);
         calendar.add(Calendar.YEAR, -1);
         Date startDate = calendar.getTime();
         calendar.add(Calendar.DATE, 30);
@@ -29,13 +25,5 @@ public class StockMonitor {
         SalesTotal total = salesHistory.getSalesTotal(product, endDate, startDate);
         if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
             alert.send(product);
-    }
-
-    private Product getProduct(int productId, Warehouse warehouse) {
-        Map<String, Object> params = new HashMap<>() {{
-            put("id", productId);
-        }};
-        String result = warehouse.getProductRequest().get(params);
-        return new Gson().fromJson(result, Product.class);
     }
 }
